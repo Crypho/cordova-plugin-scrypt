@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.crypho.plugins.scrypt"
+    version="1.0.0">
+
+    <name>ScryptPlugin</name>
+    <author>Yiorgis Gozadinos</author>
+
+    <description>
+        An scrypt implementation for iOS
+    </description>
+
+    <license>MIT</license>
+
+    <js-module src="www/scrypt.js" name="scrypt">
+        <clobbers target="scrypt" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="ScryptPlugin">
+                <param name="ios-package" value="ScryptPlugin"/>
+            </feature>
+        </config-file>
+        <source-file src="src/ios/ScryptPlugin.m" />
+        <header-file src="src/ios/ScryptPlugin.h" />
+    </platform>
+
+</plugin>
