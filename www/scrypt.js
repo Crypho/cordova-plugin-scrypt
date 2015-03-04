@@ -1,4 +1,4 @@
-var scrypt = function(successCallback, errorCallback, message, options) {
+var scrypt = function(successCallback, errorCallback, message, salt, options) {
     if (typeof errorCallback != "function")  {
         console.log("ScryptPlugin.scrypt failure: failure parameter not a function");
         return;
@@ -9,7 +9,7 @@ var scrypt = function(successCallback, errorCallback, message, options) {
         return;
     }
     options = options || {};
-    cordova.exec(successCallback, errorCallback, "ScryptPlugin", "scrypt", [message, options]);
+    cordova.exec(successCallback, errorCallback, "ScryptPlugin", "scrypt", [message, salt, options]);
 };
 
 
