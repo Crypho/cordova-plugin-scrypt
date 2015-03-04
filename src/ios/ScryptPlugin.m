@@ -8,9 +8,8 @@
 
 - (void)scrypt:(CDVInvokedUrlCommand*)command
 {
-    self.callbackId = command.callbackId;
 
-    int success;
+    int i, success;
     const char* passphrase = [[command argumentAtIndex:0] UTF8String];
     const char* salt = [[command argumentAtIndex:1] UTF8String];
     uint8_t hashbuf[SCRYPT_HASH_LEN];
@@ -22,10 +21,22 @@
     uint32_t p = [options[@"p"] unsignedShortValue] ?: SCRYPT_p;
     uint32_t dkLen = [options[@"dkLen"] unsignedShortValue] ?: 32;
 
-    success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, SCRYPT_HASH_LEN);
+    self.callbackId = command.callbackId;
 
+    @try {
+        success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, SCRYPT_HASH_LEN);
+    }
+    @catch (NSException * e) {
+        [self failWithMessage: [NSString stringWithFormat:@"%@", e] withError: nil];
+    }
+
+    if (success!=0) {
+        [self failWithMessage: @"Failure in scrypt" withError: nil];
+    }
+
+    // Hexify
     NSMutableString *hexResult = [NSMutableString stringWithCapacity:SCRYPT_HASH_LEN * 2];
-    for(int i = 0;i < dkLen; i++ )
+    for(i = 0;i < dkLen; i++ )
     {
         [hexResult appendFormat:@"%02x", hashbuf[i]];
     }
