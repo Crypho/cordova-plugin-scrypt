@@ -5,10 +5,10 @@
     version="1.0.0">
 
     <name>ScryptPlugin</name>
-    <author>Yiorgis Gozadinos</author>
+    <author>Crypho AS</author>
 
     <description>
-        An scrypt implementation for iOS
+        An scrypt implementation for iOS.
     </description>
 
     <license>MIT</license>
