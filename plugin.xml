@@ -30,6 +30,24 @@
         </config-file>
         <source-file src="src/ios/ScryptPlugin.m" />
         <header-file src="src/ios/ScryptPlugin.h" />
+
+        <source-file src="src/ios/libscrypt/b64.c" />
+        <header-file src="src/ios/libscrypt/b64.h" />
+
+        <source-file src="src/ios/libscrypt/crypto-mcf.c" />
+        <source-file src="src/ios/libscrypt/crypto-scrypt-saltgen.c" />
+        <source-file src="src/ios/libscrypt/crypto_scrypt-check.c" />
+        <source-file src="src/ios/libscrypt/crypto_scrypt-hash.c" />
+        <source-file src="src/ios/libscrypt/crypto_scrypt-hexconvert.c" />
+        <header-file src="src/ios/libscrypt/crypto_scrypt-hexconvert.h" />
+        <source-file src="src/ios/libscrypt/crypto_scrypt-nosse.c" />
+        <header-file src="src/ios/libscrypt/libscrypt.h" />
+        <source-file src="src/ios/libscrypt/sha256.c" />
+        <header-file src="src/ios/libscrypt/sha256.h" />
+        <source-file src="src/ios/libscrypt/slowequals.c" />
+        <header-file src="src/ios/libscrypt/slowequals.h" />
+        <header-file src="src/ios/libscrypt/sysendian.h" />
+
     </platform>
 
 </plugin>

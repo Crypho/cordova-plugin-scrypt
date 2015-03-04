@@ -1,36 +1,64 @@
-/*
- Licensed to the Apache Software Foundation (ASF) under one
- or more contributor license agreements.  See the NOTICE file
- distributed with this work for additional information
- regarding copyright ownership.  The ASF licenses this file
- to you under the Apache License, Version 2.0 (the
- "License"); you may not use this file except in compliance
- with the License.  You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing,
- software distributed under the License is distributed on an
- "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY}
- KIND, either express or implied.  See the License for the
- specific language governing permissions and limitations
- under the License.
- */
-
 #import "ScryptPlugin.h"
+#import "libscrypt.h"
 #import <Cordova/CDV.h>
 
 @implementation ScryptPlugin
 
-/* log a message */
+@synthesize callbackId;
+
 - (void)scrypt:(CDVInvokedUrlCommand*)command
 {
-    id message = [command argumentAtIndex:0];
-    NSMutableDictionary* options = [command.arguments objectAtIndex:1];
 
-    NSLog(@"%@", message);
-    NSLog(@"%@", options);
+    int i, success;
+    const char* passphrase = [[command argumentAtIndex:0] UTF8String];
+    const char* salt = [[command argumentAtIndex:1] UTF8String];
+    uint8_t hashbuf[SCRYPT_HASH_LEN];
 
+    // Parse options
+    NSMutableDictionary* options = [command.arguments objectAtIndex:2];
+    uint32_t N = [options[@"N"] unsignedShortValue] ?: SCRYPT_N;
+    uint32_t r = [options[@"r"] unsignedShortValue] ?: SCRYPT_r;
+    uint32_t p = [options[@"p"] unsignedShortValue] ?: SCRYPT_p;
+    uint32_t dkLen = [options[@"dkLen"] unsignedShortValue] ?: 32;
+
+    self.callbackId = command.callbackId;
+
+    @try {
+        success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, SCRYPT_HASH_LEN);
+    }
+    @catch (NSException * e) {
+        [self failWithMessage: [NSString stringWithFormat:@"%@", e] withError: nil];
+    }
+
+    if (success!=0) {
+        [self failWithMessage: @"Failure in scrypt" withError: nil];
+    }
+
+    // Hexify
+    NSMutableString *hexResult = [NSMutableString stringWithCapacity:SCRYPT_HASH_LEN * 2];
+    for(i = 0;i < dkLen; i++ )
+    {
+        [hexResult appendFormat:@"%02x", hashbuf[i]];
+    }
+    NSString *result = [NSString stringWithString: hexResult];
+    [self successWithMessage: result];
+}
+
+-(void)successWithMessage:(NSString *)message
+{
+    if (self.callbackId != nil)
+    {
+        CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
+        [self.commandDelegate sendPluginResult:commandResult callbackId:self.callbackId];
+    }
+}
+
+-(void)failWithMessage:(NSString *)message withError:(NSError *)error
+{
+    NSString        *errorMessage = (error) ? [NSString stringWithFormat:@"%@ - %@", message, [error localizedDescription]] : message;
+    CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+
+    [self.commandDelegate sendPluginResult:commandResult callbackId:self.callbackId];
 }
 
 @end
