@@ -12,7 +12,6 @@
     int i, success;
     const char* passphrase = [[command argumentAtIndex:0] UTF8String];
     const char* salt = [[command argumentAtIndex:1] UTF8String];
-    uint8_t hashbuf[SCRYPT_HASH_LEN];
 
     // Parse options
     NSMutableDictionary* options = [command.arguments objectAtIndex:2];
@@ -21,10 +20,11 @@
     uint32_t p = [options[@"p"] unsignedShortValue] ?: SCRYPT_p;
     uint32_t dkLen = [options[@"dkLen"] unsignedShortValue] ?: 32;
 
+    uint8_t hashbuf[dkLen];
     self.callbackId = command.callbackId;
 
     @try {
-        success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, SCRYPT_HASH_LEN);
+        success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, dkLen);
     }
     @catch (NSException * e) {
         [self failWithMessage: [NSString stringWithFormat:@"%@", e] withError: nil];
@@ -35,7 +35,7 @@
     }
 
     // Hexify
-    NSMutableString *hexResult = [NSMutableString stringWithCapacity:SCRYPT_HASH_LEN * 2];
+    NSMutableString *hexResult = [NSMutableString stringWithCapacity:dkLen * 2];
     for(i = 0;i < dkLen; i++ )
     {
         [hexResult appendFormat:@"%02x", hashbuf[i]];
