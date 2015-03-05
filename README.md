@@ -2,7 +2,9 @@
 
 ## Introduction
 
-This plugin is for use with [Cordova](http://incubator.apache.org/cordova/) and allows your application to use the [scrypt](http://www.tarsnap.com/scrypt.html) key derivation function on iOS devices. It is based on [libscrypt](https://github.com/technion/libscrypt).
+[scrypt](http://www.tarsnap.com/scrypt.html) is a password-based key derivation function designed to make it costly to perform hardware attacks on the derived keys. While there exist scrypt implentations for the browser in javascript they are extremely slow and impractical for use in mobile apps.
+
+This plugin is for use with [Cordova](http://incubator.apache.org/cordova/) and allows your application to use scrypt on iOS devices using native C code. It is based on [libscrypt](https://github.com/technion/libscrypt).
 
 ### Contents
 
