@@ -84,4 +84,4 @@ You can provide custom ``scrypt`` parameters in the options dict. The defaults a
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 
-    libscrypt is Copyright (c) 2013, Joshua Small under the BSD license.
+    libscrypt is Copyright (c) 2013, Joshua Small under the BSD license. See src/ios/libscrypt/LICENSE
