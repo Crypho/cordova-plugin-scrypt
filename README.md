@@ -58,7 +58,7 @@ scrypt(
 )
 ```
 
-You can provide custom ``scrypt`` parameters in the options dict. The defaults are
+The ``salt`` parameter can be a string or an array of uint8. You can provide custom ``scrypt`` parameters in the options dict. The defaults are
 ```js
 {
     N: 16384,
