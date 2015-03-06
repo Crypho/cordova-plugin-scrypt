@@ -1,3 +1,4 @@
+#import <Foundation/Foundation.h>
 #import "ScryptPlugin.h"
 #import "libscrypt.h"
 #import <Cordova/CDV.h>
@@ -9,9 +10,22 @@
 - (void)scrypt:(CDVInvokedUrlCommand*)command
 {
 
-    int i, success;
+    int i, success, count;
+    const uint8_t *parsedSalt;
+    uint8_t *buffer = NULL;
     const char* passphrase = [[command argumentAtIndex:0] UTF8String];
-    const char* salt = [[command argumentAtIndex:1] UTF8String];
+    id salt = [command argumentAtIndex:1];
+
+    if ([salt isKindOfClass:[NSString class]]) {
+        parsedSalt = (const uint8_t *)[salt UTF8String];
+    } else if ([salt isKindOfClass:[NSArray class]]) {
+        count = (int) [salt count];
+        buffer = malloc(sizeof(uint8_t) * count);
+        for (int i = 0; i < count; ++i) {
+            buffer[i] = (uint8_t)[[salt objectAtIndex:i] intValue];
+        }
+        parsedSalt = buffer;
+    }
 
     // Parse options
     NSMutableDictionary* options = [command.arguments objectAtIndex:2];
@@ -24,7 +38,7 @@
     self.callbackId = command.callbackId;
 
     @try {
-        success = libscrypt_scrypt(passphrase, strlen(passphrase), salt, strlen(salt),N, r, p, hashbuf, dkLen);
+        success = libscrypt_scrypt((uint8_t *)passphrase, strlen(passphrase), parsedSalt, sizeof(parsedSalt), N, r, p, hashbuf, dkLen);
     }
     @catch (NSException * e) {
         [self failWithMessage: [NSString stringWithFormat:@"%@", e] withError: nil];
@@ -42,6 +56,8 @@
     }
     NSString *result = [NSString stringWithString: hexResult];
     [self successWithMessage: result];
+
+    free(buffer);
 }
 
 -(void)successWithMessage:(NSString *)message
