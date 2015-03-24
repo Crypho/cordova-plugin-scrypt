@@ -18,7 +18,18 @@ public class ScryptPlugin extends CordovaPlugin {
 
 	static {
         System.loadLibrary("scrypt_crypho");
+        initialize();
     }
+
+	/**
+     * Native Initialization loads ClassIDs and MethodIDs to static variables.
+     */
+    public static native void initialize();
+
+    /**
+     * Native Destructor unloads ClassIDs from global memory.
+     */
+    public static native void cleanupJNI();
 
 	public native byte[] scrypt(byte[] pass, char[] salt, Integer N, Integer r, Integer p, Integer dkLen);
 
@@ -51,6 +62,11 @@ public class ScryptPlugin extends CordovaPlugin {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public void finalize() {
+		cleanupJNI();
 	}
 
 	private String hexify (byte[] input) {
