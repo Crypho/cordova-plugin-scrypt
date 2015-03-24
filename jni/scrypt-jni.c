@@ -89,20 +89,20 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     uint8_t *parsedSalt = malloc(sizeof(uint8_t) * saltLen);
     if (parsedSalt == NULL) {
         msg_error = "Failed to malloc parsedSalt.";
-        goto END;
+        return;
     }
 
     uint8_t *hashbuf = malloc(sizeof(uint8_t) * dkLen_i);
     if (hashbuf == NULL) {
         msg_error = "Failed to malloc parsedSalt.";
-        goto END;
+        return;
     }
 
     for (i = 0; i < saltLen; ++i) {
         parsedSalt[i] = (uint8_t) salt_chars[i];
     }
 
-	if (libscrypt_scrypt(passphrase, passLen, parsedSalt, saltLen, N_i, r_i, p_i, hashbuf, dkLen_i)) {
+    if (libscrypt_scrypt(passphrase, passLen, parsedSalt, saltLen, N_i, r_i, p_i, hashbuf, dkLen_i)) {
         jclass e = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
         char *msg;
         switch (errno) {
@@ -119,7 +119,8 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
         (*env)->ThrowNew(env, e, msg);
         goto END;
     }
-	jbyteArray result = (*env)->NewByteArray(env, dkLen_i);
+
+    jbyteArray result = (*env)->NewByteArray(env, dkLen_i);
     if((*env)->ExceptionOccurred(env)) {
         return;
     }
@@ -130,13 +131,13 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     }
 
     END:
-    	if (passphrase) (*env)->ReleaseByteArrayElements(env, pass, passphrase, JNI_ABORT);
+        if (passphrase) (*env)->ReleaseByteArrayElements(env, pass, passphrase, JNI_ABORT);
         if((*env)->ExceptionOccurred(env)) {
-            //TODO Log;
+            return;
         }
         if (salt_chars) (*env)->ReleaseCharArrayElements(env, salt, salt_chars, JNI_ABORT);
         if((*env)->ExceptionOccurred(env)) {
-            //TODO Log;
+            return;
         }
     	if (hashbuf) free(hashbuf);
         if (parsedSalt) free(parsedSalt);
