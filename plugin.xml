@@ -8,12 +8,12 @@
     <author>Crypho AS</author>
 
     <description>
-        An scrypt implementation for cordova apps in iOS.
+        An scrypt implementation for cordova apps in iOS and Android.
     </description>
 
     <license>MIT</license>
 
-    <keywords>scrypt,encryption</keywords>
+    <keywords>scrypt, encryption</keywords>
 
     <js-module src="www/scrypt.js" name="scrypt">
         <clobbers target="scrypt" />
@@ -23,7 +23,6 @@
         <engine name="cordova" version=">=3.0.0" />
     </engines>
 
-    <!-- ios -->
     <platform name="ios">
         <config-file target="config.xml" parent="/*">
             <feature name="ScryptPlugin">
@@ -33,23 +32,51 @@
         <source-file src="src/ios/ScryptPlugin.m" />
         <header-file src="src/ios/ScryptPlugin.h" />
 
-        <source-file src="src/ios/libscrypt/b64.c" />
-        <header-file src="src/ios/libscrypt/b64.h" />
+        <header-file src="src/libscrypt/crypto_scrypt-hexconvert.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/libscrypt.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/b64.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/sha256.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/slowequals.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/sysendian.h" target-dir="src/ios"/>
 
-        <source-file src="src/ios/libscrypt/crypto-mcf.c" />
-        <source-file src="src/ios/libscrypt/crypto-scrypt-saltgen.c" />
-        <source-file src="src/ios/libscrypt/crypto_scrypt-check.c" />
-        <source-file src="src/ios/libscrypt/crypto_scrypt-hash.c" />
-        <source-file src="src/ios/libscrypt/crypto_scrypt-hexconvert.c" />
-        <header-file src="src/ios/libscrypt/crypto_scrypt-hexconvert.h" />
-        <source-file src="src/ios/libscrypt/crypto_scrypt-nosse.c" />
-        <header-file src="src/ios/libscrypt/libscrypt.h" />
-        <source-file src="src/ios/libscrypt/sha256.c" />
-        <header-file src="src/ios/libscrypt/sha256.h" />
-        <source-file src="src/ios/libscrypt/slowequals.c" />
-        <header-file src="src/ios/libscrypt/slowequals.h" />
-        <header-file src="src/ios/libscrypt/sysendian.h" />
-
+        <source-file src="src/libscrypt/b64.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto-mcf.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto_scrypt-check.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto_scrypt-hash.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto_scrypt-hexconvert.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto_scrypt-nosse.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/crypto-scrypt-saltgen.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/sha256.c" target-dir="src/ios"/>
+        <source-file src="src/libscrypt/slowequals.c" target-dir="src/ios"/>
     </platform>
 
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="ScryptPlugin" >
+                <param name="android-package" value="com.crypho.plugins.ScryptPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-sdk   android:minSdkVersion="19" android:targetSdkVersion="19"/>
+        </config-file>
+
+        <source-file src="src/android/com/crypho/plugins/ScryptPlugin.java" target-dir="src/com/crypho/plugins/"/>
+
+        <source-file src="libs/arm64-v8a/libscrypt_crypho.so" target-dir="src/main/jniLibs/arm64-v8a/"/>
+        <source-file src="libs/armeabi/libscrypt_crypho.so" target-dir="src/main/jniLibs/armeabi/"/>
+        <source-file src="libs/armeabi-v7a/libscrypt_crypho.so" target-dir="src/main/jniLibs/armeabi-v7a/"/>
+        <source-file src="libs/mips/libscrypt_crypho.so" target-dir="src/main/jniLibs/mips/"/>
+        <source-file src="libs/mips64/libscrypt_crypho.so" target-dir="src/main/jniLibs/mips64/"/>
+        <source-file src="libs/x86/libscrypt_crypho.so" target-dir="src/main/jniLibs/x86/"/>
+        <source-file src="libs/x86_64/libscrypt_crypho.so" target-dir="src/main/jniLibs/x86_64/"/>
+
+        <source-file src="libs/arm64-v8a/libscrypt_crypho.so" target-dir="libs/arm64-v8a/"/>
+        <source-file src="libs/armeabi/libscrypt_crypho.so" target-dir="libs/armeabi/"/>
+        <source-file src="libs/armeabi-v7a/libscrypt_crypho.so" target-dir="libs/armeabi-v7a/"/>
+        <source-file src="libs/mips/libscrypt_crypho.so" target-dir="libs/mips/"/>
+        <source-file src="libs/mips64/libscrypt_crypho.so" target-dir="libs/mips64/"/>
+        <source-file src="libs/x86/libscrypt_crypho.so" target-dir="libs/x86/"/>
+        <source-file src="libs/x86_64/libscrypt_crypho.so" target-dir="libs/x86_64/"/>
+    </platform>
 </plugin>
