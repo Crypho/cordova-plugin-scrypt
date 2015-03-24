@@ -1,10 +1,10 @@
-# Scrypt plugin for iOS
+# Scrypt plugin for iOS & Android
 
 ## Introduction
 
 [scrypt](http://www.tarsnap.com/scrypt.html) is a password-based key derivation function designed to make it costly to perform hardware attacks on the derived keys. While there exist scrypt implentations for the browser in javascript they are extremely slow and impractical for use in mobile apps.
 
-This plugin is for use with [Cordova](http://incubator.apache.org/cordova/) and allows your application to use scrypt on iOS devices using native C code. It is based on [libscrypt](https://github.com/technion/libscrypt).
+This plugin is for use with [Cordova](http://incubator.apache.org/cordova/) and allows your application to use scrypt on iOS/Android devices using native C code. It is based on [libscrypt](https://github.com/technion/libscrypt).
 
 ### Contents
 
@@ -92,4 +92,4 @@ The ``salt`` parameter can be a string or an array of uint8. You can provide cus
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
     THE SOFTWARE.
 
-    libscrypt is Copyright (c) 2013, Joshua Small under the BSD license. See src/ios/libscrypt/LICENSE
+    libscrypt is Copyright (c) 2013, Joshua Small under the BSD license. See src/libscrypt/LICENSE
