@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.crypho.plugins.scrypt"
-    version="2.0.0">
+    version="2.0.1">
 
     <name>ScryptPlugin</name>
     <author>Crypho AS</author>
@@ -38,6 +38,7 @@
         <header-file src="src/libscrypt/sha256.h" target-dir="src/ios"/>
         <header-file src="src/libscrypt/slowequals.h" target-dir="src/ios"/>
         <header-file src="src/libscrypt/sysendian.h" target-dir="src/ios"/>
+        <header-file src="src/libscrypt/android.h" target-dir="src/ios"/>
 
         <source-file src="src/libscrypt/b64.c" target-dir="src/ios"/>
         <source-file src="src/libscrypt/crypto-mcf.c" target-dir="src/ios"/>
