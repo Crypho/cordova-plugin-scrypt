@@ -5,6 +5,7 @@
 
 
 #include <stdint.h>
+#include "android.h"
 
 #ifdef __cplusplus
 extern "C"{
@@ -52,7 +53,7 @@ int libscrypt_check(char *mcf, const char *password);
 #endif
 
 /* Sane default values */
-#define SCRYPT_HASH_LEN 64 /* This can be user defined - 
+#define SCRYPT_HASH_LEN 64 /* This can be user defined -
  *but 64 is the reference size
  */
 #define SCRYPT_SAFE_N 30 /* This is much higher than you want. It's just
