@@ -17,18 +17,12 @@ public class ScryptPlugin extends CordovaPlugin {
 	private static final char[] HEX = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
 
 	static {
-        System.loadLibrary("scrypt_crypho");
-        initialize();
+    	System.loadLibrary("scrypt_crypho");
+    	initialize();
     }
 
-	/**
-     * Native Initialization loads ClassIDs and MethodIDs to static variables.
-     */
     public static native void initialize();
 
-    /**
-     * Native Destructor unloads ClassIDs from global memory.
-     */
     public static native void cleanupJNI();
 
 	public native byte[] scrypt(byte[] pass, char[] salt, Integer N, Integer r, Integer p, Integer dkLen);
@@ -55,7 +49,7 @@ public class ScryptPlugin extends CordovaPlugin {
 						callbackContext.success(result);
 					} catch (Exception e) {
 						Log.e(TAG, "Scrypt Failed: " + e.getMessage());
-						callbackContext.error("libscrypt_scrypt Failed");
+						callbackContext.error(e.getMessage());
 					}
 				}
 			});
@@ -97,6 +91,5 @@ public class ScryptPlugin extends CordovaPlugin {
 		} else {
 			return ((String) src).toCharArray();
 		}
-
 	}
 }

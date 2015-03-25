@@ -15,6 +15,7 @@ static jobject JC_Integer;
 static jmethodID JMID_Integer_intValue;
 
 static jint callIntMethod(JNIEnv* env, jmethodID method, jobject integerObject, jint defaultValue);
+static void throwException(JNIEnv* env, char *msg);
 
 JNIEXPORT void JNICALL
 Java_com_crypho_plugins_ScryptPlugin_initialize(JNIEnv* env, jclass cls)
@@ -63,6 +64,7 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     jint dkLen_i = callIntMethod(env, JMID_Integer_intValue, dkLen, 32);
 
     jint passLen = (*env)->GetArrayLength(env, pass);
+
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get passphrase lenght.");
         return;
@@ -74,7 +76,7 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
         return;
     }
 
-	jbyte *passphrase = (*env)->GetByteArrayElements(env, pass, NULL);
+    jbyte *passphrase = (*env)->GetByteArrayElements(env, pass, NULL);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get passphrase elements.");
         return;
@@ -83,19 +85,23 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     jchar *salt_chars = (*env)->GetCharArrayElements(env, salt, NULL);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get salt elements.");
-        return;
+        goto END;
     }
 
     uint8_t *parsedSalt = malloc(sizeof(uint8_t) * saltLen);
     if (parsedSalt == NULL) {
         msg_error = "Failed to malloc parsedSalt.";
-        return;
+        LOGE("%s", msg_error);
+        throwException(env, msg_error);
+        goto END;
     }
 
     uint8_t *hashbuf = malloc(sizeof(uint8_t) * dkLen_i);
     if (hashbuf == NULL) {
-        msg_error = "Failed to malloc parsedSalt.";
-        return;
+        msg_error = "Failed to malloc hashbuf.";
+        LOGE("%s", msg_error);
+        throwException(env, msg_error);
+        goto END;
     }
 
     for (i = 0; i < saltLen; ++i) {
@@ -103,42 +109,36 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     }
 
     if (libscrypt_scrypt(passphrase, passLen, parsedSalt, saltLen, N_i, r_i, p_i, hashbuf, dkLen_i)) {
-        jclass e = (*env)->FindClass(env, "java/lang/IllegalArgumentException");
-        char *msg;
         switch (errno) {
             case EINVAL:
-                msg = "N must be a power of 2 greater than 1";
+                msg_error = "N must be a power of 2 greater than 1.";
                 break;
             case EFBIG:
             case ENOMEM:
-                msg = "Insufficient memory available";
+                msg_error = "Insufficient memory available.";
                 break;
             default:
-                msg = "Memory allocation failed";
+                msg_error = "Memory allocation failed.";
         }
-        (*env)->ThrowNew(env, e, msg);
+        throwException(env, msg_error);
         goto END;
     }
 
     jbyteArray result = (*env)->NewByteArray(env, dkLen_i);
     if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to allocate result buffer.");
         return;
     }
 
     (*env)->SetByteArrayRegion(env, result, 0, dkLen_i, (jbyte *) hashbuf);
     if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to set result buffer.");
         return;
     }
 
     END:
         if (passphrase) (*env)->ReleaseByteArrayElements(env, pass, passphrase, JNI_ABORT);
-        if((*env)->ExceptionOccurred(env)) {
-            return;
-        }
         if (salt_chars) (*env)->ReleaseCharArrayElements(env, salt, salt_chars, JNI_ABORT);
-        if((*env)->ExceptionOccurred(env)) {
-            return;
-        }
     	if (hashbuf) free(hashbuf);
         if (parsedSalt) free(parsedSalt);
 
@@ -155,4 +155,10 @@ callIntMethod(JNIEnv* env, jmethodID method, jobject integerObject, jint default
       return defaultValue;
     }
     return result;
+}
+
+static void
+throwException(JNIEnv* env, char *msg) {
+    jclass JC_Exception = (*env)->FindClass(env, "java/lang/Exception");
+    (*env)->ThrowNew(env, JC_Exception, msg);
 }
