@@ -64,22 +64,21 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     jint dkLen_i = callIntMethod(env, JMID_Integer_intValue, dkLen, 32);
 
     jint passLen = (*env)->GetArrayLength(env, pass);
-
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get passphrase lenght.");
-        return;
+        goto END;
     }
 
     jint saltLen = (*env)->GetArrayLength(env, salt);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get salt lenght.");
-        return;
+        goto END;
     }
 
     jbyte *passphrase = (*env)->GetByteArrayElements(env, pass, NULL);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to get passphrase elements.");
-        return;
+        goto END;
     }
 
     jchar *salt_chars = (*env)->GetCharArrayElements(env, salt, NULL);
@@ -127,13 +126,13 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     jbyteArray result = (*env)->NewByteArray(env, dkLen_i);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to allocate result buffer.");
-        return;
+        goto END;
     }
 
     (*env)->SetByteArrayRegion(env, result, 0, dkLen_i, (jbyte *) hashbuf);
     if((*env)->ExceptionOccurred(env)) {
         LOGE("Failed to set result buffer.");
-        return;
+        goto END;
     }
 
     END:
