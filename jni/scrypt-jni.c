@@ -17,40 +17,6 @@ static jmethodID JMID_Integer_intValue;
 static jint callIntMethod(JNIEnv* env, jmethodID method, jobject integerObject, jint defaultValue);
 static void throwException(JNIEnv* env, char *msg);
 
-JNIEXPORT void JNICALL
-Java_com_crypho_plugins_ScryptPlugin_initialize(JNIEnv* env, jclass cls)
-{
-    jclass tmpClass = (*env)->FindClass(env, "java/lang/Integer");
-    if((*env)->ExceptionOccurred(env)) {
-        LOGE("Failed to load class java.lang.Integer.");
-        return;
-    }
-
-    JC_Integer = (*env)->NewGlobalRef(env, tmpClass);
-    if((*env)->ExceptionOccurred(env)) {
-        LOGE("Failed to asign global java.lang.Integer.");
-        return;
-    }
-
-    (*env)->DeleteLocalRef(env, tmpClass);
-    if((*env)->ExceptionOccurred(env)) {
-        LOGE("Failed to delete local ref of java.lang.Integer.");
-        return;
-    }
-
-    JMID_Integer_intValue = (*env)->GetMethodID(env, JC_Integer, "intValue", "()I");
-    if((*env)->ExceptionOccurred(env)) {
-        LOGE("Failed to fetch inValue method from java.lang.Integer.");
-        return;
-    }
-}
-
-JNIEXPORT void JNICALL
-Java_com_crypho_plugins_ScryptPlugin_cleanupJNI(JNIEnv* env, jclass cls)
-{
-    (*env)->DeleteGlobalRef(env, JC_Integer);
-}
-
 JNIEXPORT jbyteArray JNICALL
 Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
 	jbyteArray pass, jcharArray salt, jobject N, jobject r, jobject p, jobject dkLen)
@@ -138,7 +104,7 @@ Java_com_crypho_plugins_ScryptPlugin_scrypt( JNIEnv* env, jobject thiz,
     END:
         if (passphrase) (*env)->ReleaseByteArrayElements(env, pass, passphrase, JNI_ABORT);
         if (salt_chars) (*env)->ReleaseCharArrayElements(env, salt, salt_chars, JNI_ABORT);
-    	if (hashbuf) free(hashbuf);
+        if (hashbuf) free(hashbuf);
         if (parsedSalt) free(parsedSalt);
 
     return result;
@@ -160,4 +126,53 @@ static void
 throwException(JNIEnv* env, char *msg) {
     jclass JC_Exception = (*env)->FindClass(env, "java/lang/Exception");
     (*env)->ThrowNew(env, JC_Exception, msg);
+}
+
+JNIEXPORT jint JNICALL
+JNI_OnLoad(JavaVM* vm, void* aReserved){
+    JNIEnv* env;
+    jclass aClass;
+
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK){
+        LOGE("Failed to get the environment");
+        return JNI_ERR;
+    }
+
+    aClass = (*env)->FindClass(env, "java/lang/Integer");
+    if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to load class java.lang.Integer.");
+        return JNI_ERR;
+    }
+
+    JC_Integer = (*env)->NewWeakGlobalRef(env, aClass);
+    if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to asign global java.lang.Integer.");
+        return JNI_ERR;
+    }
+
+    (*env)->DeleteLocalRef(env, aClass);
+    if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to delete local ref of java.lang.Integer.");
+        return JNI_ERR;
+    }
+
+    JMID_Integer_intValue = (*env)->GetMethodID(env, JC_Integer, "intValue", "()I");
+    if((*env)->ExceptionOccurred(env)) {
+        LOGE("Failed to fetch inValue method from java.lang.Integer.");
+        return JNI_ERR;
+    }
+
+//    env->RegisterNatives(activityClass, methodTable, sizeof(methodTable) / sizeof(methodTable[0]));
+    return JNI_VERSION_1_6;
+}
+
+JNIEXPORT void JNICALL
+JNI_OnUnLoad(JavaVM* vm, void* aReserved){
+    JNIEnv* env;
+
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK){
+        LOGE("Failed to get the environment");
+        return;
+    }
+    (*env)->DeleteWeakGlobalRef(env, JC_Integer);
 }
