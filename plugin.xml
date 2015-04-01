@@ -2,7 +2,7 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.crypho.plugins.scrypt"
-    version="2.0.1">
+    version="2.0.2">
 
     <name>ScryptPlugin</name>
     <author>Crypho AS</author>
