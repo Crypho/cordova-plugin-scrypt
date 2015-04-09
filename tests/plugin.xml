@@ -8,7 +8,7 @@
     <author>Crypho AS</author>
 
     <description>
-        Test of An scrypt implementation for cordova apps in iOS and Android.
+        Test for com.crypho.plugins.scrypt
     </description>
 
     <license>MIT</license>
