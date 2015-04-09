@@ -131,60 +131,60 @@ var testCases = [
     "dkLen": 48,
     "expected": "e5f5bce126455eec251b65667e0feb532b07ffcf56164c1b7e81e6cdd88a647cf679d16a7fe8d640de40028df832fd19"
 },
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 2,
-    "r": 1,
-    "p": 1,
-    "dkLen": 32,
-    "expected": "26e5228d9800146660ad3a9b3e264e7aff9eb0fc68bcc36ee581ec037c4d5a06"
-},
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 2,
-    "r": 1,
-    "p": 2,
-    "dkLen": 32,
-    "expected": "21131d0da3e4c7250bc108e61ed6afcb6c2b2550b550846b190141ffee12f184"
-},
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 2,
-    "r": 2,
-    "p": 1,
-    "dkLen": 32,
-    "expected": "72912cd0b78ff614ce9e45773ef2b03e47185ad94f97cbd03337c68f62bc8fca"
-},
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 4,
-    "r": 1,
-    "p": 1,
-    "dkLen": 32,
-    "expected": "9ab1c590b7651ec11bfd3e6659ad950c39d93f3bba5f73585958164e16d15606"
-},
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 2,
-    "r": 1,
-    "p": 1,
-    "dkLen": 48,
-    "expected": "26e5228d9800146660ad3a9b3e264e7aff9eb0fc68bcc36ee581ec037c4d5a06794abf829f0042f0884a7b9de15471d5"
-},
-{
-    "salt": "sa\u0000lt",
-    "password": "pass\u0000word",
-    "N": 4,
-    "r": 2,
-    "p": 2,
-    "dkLen": 48,
-    "expected": "2c0ea11828a8a4f4991349c2c6c5ff2266aa543c27d876b5ae7a813dd0bb4c0da0d6aadd3d031063502f05faa527ac66"
-},
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 2,
+//     "r": 1,
+//     "p": 1,
+//     "dkLen": 32,
+//     "expected": "26e5228d9800146660ad3a9b3e264e7aff9eb0fc68bcc36ee581ec037c4d5a06"
+// },
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 2,
+//     "r": 1,
+//     "p": 2,
+//     "dkLen": 32,
+//     "expected": "21131d0da3e4c7250bc108e61ed6afcb6c2b2550b550846b190141ffee12f184"
+// },
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 2,
+//     "r": 2,
+//     "p": 1,
+//     "dkLen": 32,
+//     "expected": "72912cd0b78ff614ce9e45773ef2b03e47185ad94f97cbd03337c68f62bc8fca"
+// },
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 4,
+//     "r": 1,
+//     "p": 1,
+//     "dkLen": 32,
+//     "expected": "9ab1c590b7651ec11bfd3e6659ad950c39d93f3bba5f73585958164e16d15606"
+// },
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 2,
+//     "r": 1,
+//     "p": 1,
+//     "dkLen": 48,
+//     "expected": "26e5228d9800146660ad3a9b3e264e7aff9eb0fc68bcc36ee581ec037c4d5a06794abf829f0042f0884a7b9de15471d5"
+// },
+// {
+//     "salt": "sa\u0000lt",
+//     "password": "pass\u0000word",
+//     "N": 4,
+//     "r": 2,
+//     "p": 2,
+//     "dkLen": 48,
+//     "expected": "2c0ea11828a8a4f4991349c2c6c5ff2266aa543c27d876b5ae7a813dd0bb4c0da0d6aadd3d031063502f05faa527ac66"
+// },
 {
     "salt": "",
     "password": "",
