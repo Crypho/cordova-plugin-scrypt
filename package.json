@@ -1,0 +1,35 @@
+{
+  "name": "cordova-plugin-scrypt",
+  "version": "2.1.0",
+  "description": "An scrypt implementation for cordova apps in iOS and Android.",
+  "author": "Yiorgis Gozadinos <ggozad@crypho.com>",
+  "contributors": [
+    {"name": "Demetris Manikas", "email": "demetris.manikas@gmail.com"}
+  ],
+  "cordova": {
+    "id": "cordova-plugin-scrypt",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "security",
+    "encryption",
+    "scrypt"
+  ],
+  "main": "www/securestorage.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crypho/cordova-plugin-scrypt.git"
+  },
+  "devDependencies": {
+    "cordova-plugin-test-framework": ">=1.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crypho/cordova-plugin-scrypt/issues"
+  },
+  "homepage": "https://github.com/crypho/cordova-plugin-scrypt#readme"
+}

@@ -215,7 +215,7 @@ var testCases = [
 ];
 
 exports.defineAutoTests = function() {
-    describe('com.crypho.plugins.scrypt', function () {
+    describe('cordova-plugin-scrypt', function () {
 
         it("should be defined", function() {
             expect(window.plugins.scrypt).toBeDefined();

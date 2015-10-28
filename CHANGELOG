@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.1.0 - Unreleased
+2.1.0 - 2015-10-28
 ------------------
+
+- Rename to cordova-plugin-scrypt, publish to npm.
+  [ggozad]
 
 - Add testing instructions.
   [ggozad]
