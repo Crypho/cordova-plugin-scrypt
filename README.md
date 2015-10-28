@@ -24,13 +24,13 @@ The plugin can be installed via the Cordova command line interface:
 * Run the command:
 
 ```sh
-cordova plugin add com.crypho.plugins.scrypt
+cordova plugin add cordova-plugin-scrypt
 ```
 
 or if you want to be running the development version,
 
 ```sh
-cordova plugin add https://github.com/Crypho/com.crypho.plugins.scrypt.git
+cordova plugin add https://github.com/Crypho/cordova-plugin-scrypt.git
 ```
 
 ##<a name="plugin_api"></a> Plugin API
