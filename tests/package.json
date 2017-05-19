@@ -1,0 +1,25 @@
+{
+  "name": "cordova-plugin-scrypt-tests",
+  "version": "1.0.0",
+  "description": "Tests for cordova-plugin-scrypt",
+  "author": "Yiorgis Gozadinos <ggozad@crypho.com>",
+  "cordova": {
+    "id": "cordova-plugin-scrypt",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crypho/cordova-plugin-scrypt.git"
+  },
+  "devDependencies": {
+    "cordova-plugin-test-framework": ">=1.0.0"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crypho/cordova-plugin-scrypt/issues"
+  },
+  "homepage": "https://github.com/crypho/cordova-plugin-scrypt#readme"
+}
