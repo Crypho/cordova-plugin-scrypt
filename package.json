@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-scrypt",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "An scrypt implementation for cordova apps in iOS and Android.",
   "author": "Yiorgis Gozadinos <ggozad@crypho.com>",
   "contributors": [
