@@ -38,7 +38,7 @@ public class ScryptPlugin extends CordovaPlugin {
 			cordova.getThreadPool().execute(new Runnable() {
 				public void run() {
 					try {
-						byte[] passwordBytes = arg_passphrase.getBytes("US-ASCII");
+						byte[] passwordBytes = arg_passphrase.getBytes("UTF-8");
 						byte[] res = scrypt(passwordBytes, arg_salt, N, r, p, dkLen);
 						String result = hexify(res);
 						callbackContext.success(result);
