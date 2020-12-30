@@ -1,5 +1,8 @@
 # Scrypt plugin for iOS & Android
 
+## Project no longer mantained.
+As Crypho does not use Cordova for a long time now, it has become clear that we cannot keep maintaining this project any longer, or give it the attention it deserves. A big thanks to all the contributors.
+
 ## Introduction
 
 [scrypt](http://www.tarsnap.com/scrypt.html) is a password-based key derivation function designed to make it costly to perform hardware attacks on the derived keys. While there exist scrypt implentations for the browser in javascript they are extremely slow and impractical for use in mobile apps.
